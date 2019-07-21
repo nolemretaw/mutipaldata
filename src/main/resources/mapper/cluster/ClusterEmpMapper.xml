@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lanou.mapper.cluster.ClusterEmpMapper">
+
+    <sql id="findAll">select id,name,sex,job,salary,hiredate,deptno,to_char(current_timestamp,'YYYY-mm-dd HH24:MI:SS.MS') AS timeStamp from emp</sql>
+    <select id="findAllEmp" resultType="com.lanou.bean.Emp">
+       <include refid="findAll"/>
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.lanou.bean.Emp">
+        <include refid="findAll"/> where id=#{id}
+    </select>
+</mapper>

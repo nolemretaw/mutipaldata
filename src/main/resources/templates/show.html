@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<style type="text/css">
+	table {
+		border:1px solid black;
+		margin:0px auto;
+		border-spacing:0px;
+	}
+	table td {
+		border:1px solid black;
+		width: 80px;
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>编号</td>
+			<td>姓名</td>
+			<td>性别</td>
+			<td>职位</td>
+			<td>薪水</td>
+			<td>入职</td>
+			<td>部门</td>
+			<td>操作</td>
+		</tr>
+		<tr th:each="emp:${emps}">
+			<td th:text="${emp.id}"></td>
+			<td th:text="${emp.name}"></td>
+			<td th:text="${emp.sex}"></td>
+			<td th:text="${emp.job}"></td>
+			<td th:text="${emp.salary}"></td>
+			<td th:text="${emp.hiredate}"></td>
+			<td th:text="${emp.deptno}"></td>
+			<td><a class="delete" href="#">删除</a><a class="update" href="#">修改</a></td>
+		</tr>
+	</table>
+	
+	<button>添加员工</button>
+	
+	<script th:src="@{/js/jquery-1.4.3.js}"></script>
+	<script th:src="@{/js/jquery.serializeJson-min.js}"></script>
+	<script type="text/javascript">
+		$("a.delete").click(function() {
+			var id=$(this).parent().parent().children(":first").text();
+			$.ajax({
+				type:"DELETE",
+				url:"/emp/"+id,
+				success:function(data){
+					window.location.reload(); 
+					
+				}
+			});
+		});
+		  
+		$("a.update").click(function() {
+			var id=$(this).parent().parent().children(":first").text();
+			var storage = window.localStorage;
+			storage.setItem('id',id);
+			window.location.assign("/html/update.html");
+		});
+
+		$(":button").click(function() {
+			window.location.assign("/html/addEmp.html");
+		});
+	</script>
+</body>
+</html>

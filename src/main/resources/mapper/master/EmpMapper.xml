@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper  namespace="com.lanou.mapper.master.EmpMapper">
+ 	<cache/>
+ 	<sql id="findAll">select * from emp</sql>
+ 	
+ 	<select id="findAllEmp" resultType="com.lanou.bean.Emp">
+ 		<include refid="findAll"/>
+ 	</select>
+ 	
+ 	<delete id="deleteEmpById" parameterType="int">
+ 		delete from emp where id=#{id}
+ 	</delete>
+ 	
+ 	<insert id="addEmp" parameterType="com.lanou.bean.Emp">
+ 		insert into emp(id,name,sex,job,salary,hiredate,deptno,timeStamp)
+ 		values(#{id},#{name},#{sex},#{job},#{salary},#{hiredate},#{deptno},#{timeStamp})
+ 	</insert>
+ 	
+ 	<update id="update" parameterType="com.lanou.bean.Emp">
+ 		update emp
+ 		<set>
+ 		<if test="name!=null">
+			name=#{name},
+			</if>
+			<if test="sex!=null">
+				sex=#{sex},
+			</if>
+			<if test="job!=null">
+				job=#{job},
+			</if>
+			<if test="salary!=0">
+				salary=#{salary},
+			</if>
+			<if test="hiredate!=null">
+				hiredate=#{hiredate},
+			</if>
+			<if test="deptno!=0">
+				deptno=#{deptno}
+			</if>
+		</set>
+			where id=#{id}
+ 	</update>
+ 	
+ 	<select id="findEmpById" parameterType="int" resultType="com.lanou.bean.Emp">
+ 		<include refid="findAll"/> where id=#{id}
+ 	</select>
+ 	
+ </mapper>

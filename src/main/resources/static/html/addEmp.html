@@ -1,0 +1,44 @@
+<!DOCTYPE html/>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<body>
+	<form id="addForm">
+		<fieldset>
+			<legend>添加用户</legend>
+			<input type="hidden" name="id"/><br>
+			姓名:<input type="text" name="name"/><br>
+			性别:<input type="text" name="sex"/><br>
+			职位:<input type="text" name="job"/><br>
+			薪水:<input type="text" name="salary"/><br>
+			入职时间:<input type="date" name="hiredate"/><br>
+			部门:<input type="text" name="deptno"/><br>
+			<input type="button" value="提交"/>
+		</fieldset>
+	</form>
+	
+	<script src="../js/jquery-1.4.3.js"></script>
+	<script src="../js/jquery.serializeJson-min.js"></script>
+	<script type="text/javascript">
+		$(":button").click(function() {
+			$.ajax({
+			type:"POST",
+			url:"/emp/addEmp",
+			contentType:"application/json",
+			data:JSON.stringify($("#addForm").serializeJson()),
+			success:function(data){
+				/* console.log("data=>"+data); */
+				 if (data) {				
+					/* console.log(data,typeof data); */
+					window.location.assign("/emp/listEmp");
+				} 
+			}
+			});
+		});
+	
+	</script>
+</body>
+</html>

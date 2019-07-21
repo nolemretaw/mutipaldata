@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+	<form id="updateForm">
+		<fieldset>
+			<legend>修改用户</legend>
+			<input type="hidden" name="id"/><br>
+			姓名:<input type="text" name="name"/><br>
+			性别:<input type="text" name="sex"/><br>
+			职位:<input type="text" name="job"/><br>
+			薪水:<input type="text" name="salary"/><br>
+			入职时间:<input type="date" name="hiredate"/><br>
+			部门:<input type="text" name="deptno"/><br>
+			<input type="button" value="提交">
+		</fieldset>
+	</form>
+	
+	<script src="../js/jquery-1.4.3.js"></script>
+	<script src="../js/jquery.serializeJson-min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {	
+	var storage = window.localStorage;
+	var id = storage.getItem('id');
+	console.log(id,typeof id);
+	$.ajax({
+		type:"GET",
+		url:"/emp/"+id,
+		success:function(data){
+			console.log(data,typeof data);
+			$("input[name='id']").val(data.id);
+			$("input[name='name']").val(data.name);
+			$("input[name='sex']").val(data.sex);
+			$("input[name='job']").val(data.job);
+			$("input[name='salary']").val(data.salary);
+			$("input[name='hiredate']").val(simpleDate(data.hiredate));
+			$("input[name='deptno']").val(data.deptno);
+		}
+	});
+	});
+	function simpleDate(dateStr) {
+		var date = new Date(dateStr);
+		var year = date.getFullYear().toString();
+		var month;
+		var day;
+		if(date.getMonth()<9){
+			month = (date.getMonth()+1).toString();
+			month = "0"+month;
+		}else {
+			month = date.getMonth().toString();
+		}
+		if(date.getDate()<10){
+			day = date.getDate().toString();
+			day = "0"+day;
+		}else {
+			day = date.getDate().toString();
+		}
+		return year+"-"+month+"-"+day;
+	}
+	$(":button").click(function() {
+		$.ajax({
+			type:"PUT",
+			url:"/emp/updateEmp",
+			contentType:"application/json",
+			data:JSON.stringify($("#updateForm").serializeJson()),
+			success:function(data){
+				 window.location.assign("/emp/listEmp");
+			}
+		});
+	});
+	</script>
+</body>
+</html>
